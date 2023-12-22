@@ -153,7 +153,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_update_account(self):
         """It should Update an account"""
         account = self._create_accounts(1)[0]
@@ -189,10 +189,10 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        
+
     def test_list_accounts(self):
         """It should List all accounts"""
-        accounts = self._create_accounts(10)
+        self._create_accounts(10)
         response = self.client.get(
             BASE_URL,
             content_type="application/json"
