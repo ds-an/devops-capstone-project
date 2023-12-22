@@ -124,3 +124,22 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     # ADD YOUR TEST CASES HERE ...
+
+    def test_read_account(self):
+        """It sould Read an account"""
+        account = self._create_accounts(1)[0]
+        response = self.client.get(
+            f"{BASE_URL}/{account.id}",
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        account_data = response.get_json()
+        self.assertEqual(account_data['name'], account.name)
+
+    def test_account_not_found(self):
+        """It sould return 404 on an account that doesn't exist"""
+        response = self.client.get(
+            f"{BASE_URL}/0",
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
