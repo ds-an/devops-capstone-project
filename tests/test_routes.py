@@ -143,3 +143,26 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        response = self.client.put(
+            f"{BASE_URL}/0",
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
+    def test_update_account(self):
+        """It should Update an account"""
+        account = self._create_accounts(1)[0]
+        response = self.client.get(
+            f"{BASE_URL}/{account.id}",
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        account_data = response.get_json()
+        account_data['name'] = "New_name"
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=account_data
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        updated_data = response.get_json()
+        self.assertEqual(updated_data['name'], account_data['name'])
