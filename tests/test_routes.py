@@ -148,6 +148,11 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        response = self.client.delete(
+            f"{BASE_URL}/0",
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
     
     def test_update_account(self):
         """It should Update an account"""
@@ -185,3 +190,18 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         
+    def test_list_accounts(self):
+        """It should List all accounts"""
+        accounts = self._create_accounts(10)
+        response = self.client.get(
+            BASE_URL,
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        account_data = response.get_json()
+        self.assertEqual(len(account_data), 10)
+
+    def test_method_not_allowed(self):
+        """It should not allow an illegal method call"""
+        resp = self.client.delete(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
