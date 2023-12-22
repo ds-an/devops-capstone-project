@@ -8,6 +8,7 @@ sudo apt-get update
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.8 python3.8-venv
 
 echo "Making Python 3.8 the default..."
+sudo update-alternatives --remove-all python3
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
 
@@ -39,3 +40,7 @@ echo "****************************************"
 echo ""
 echo "Use 'exit' to close this terminal and open a new one to initialize the environment"
 echo ""
+
+echo "Setting up my Github credentials..."
+git config --local user.name "Andrew Malyukov"
+git config --local user.email ds-an@tuta.io
